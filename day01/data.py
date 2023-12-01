@@ -1,3 +1,6 @@
+#data reformatted in notepad++ with the following regex:
+# Find:     ^(.*)$
+# Replace:  "\1",
 data=["dssmtmrkonedbbhdhjbf9hq",
 "2njsevenszzsfltconesixhsflpbpd",
 "6shgbprkpbksnfourfivemvncvg2eight",
