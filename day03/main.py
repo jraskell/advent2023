@@ -109,13 +109,13 @@ for entry in mask:
                     gears[loc].append(int(num))
                 num = ""
                 adjacent = False
-    print(text)
+    #print(text)
     y +=1
 
 for entry in gears:
     
     if len(gears[entry]) == 2:
-        print(entry, gears[entry][0] , gears[entry][1])
+        #print(entry, gears[entry][0] , gears[entry][1])
         gearsum += gears[entry][0] * gears[entry][1]
 print(sum)
 print(gearsum)
