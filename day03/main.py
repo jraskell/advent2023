@@ -17,15 +17,18 @@ max_y = len(data)
 chars = [x for x in "0123456789"]
 def IsDigit(param):
     return chars.count(param) != 0
-
+gears = {}
 mask = [[' ' for i in range(max_x)] for i in range(max_y)]
-x = 0
+
 y = 0
 for entry in data:
     x = 0
     for value in entry:
         if not (value == '.' or value.isdigit()):
             queue.append((x,y))
+            if value == '*': 
+                mask[y][x] = '*'
+                gears[(x,y)] = []
         x += 1
     y += 1
     
@@ -65,12 +68,55 @@ while len(queue) > 0:
                     #print("-", (i,j))
 
 sum = 0
+gearsum = 0
+y = 0
 for entry in mask:
+    #Part1 sum
     text = ''.join(entry)
     res = re.findall(r"\d+", text)
     for num in res:
         sum += int(num)
-    #print(text)
+    
+    #Part2 gears check
+    x = 0
+    adjacent = False
+    num = ""
+    loc = (0,0)
+    for val in entry:
+        if val.isdigit():
+            num += val
+            #is there an adjacent *?
+            for a in range(-1,2):
+                for b in range(-1,2):
+                    i = x + a
+                    j = y + b
+                    if i >= max_x or i < 0 or j >= max_y or j < 0: continue
+                    #print(i,j)
+                    if mask[j][i] == '*':
+                        adjacent = True
+                        loc = (i,j)
+                        #print(loc)
+        elif len(num) > 0:
+            if adjacent:
+                gears[loc].append(int(num))
+            num = ""
+            adjacent = False
+        x += 1
+        if x >= max_x:
+            #end of line.  Check for number to process
+            if len(num) > 0:
+                if adjacent:
+                    gears[loc].append(int(num))
+                num = ""
+                adjacent = False
+    print(text)
+    y +=1
 
+for entry in gears:
+    
+    if len(gears[entry]) == 2:
+        print(entry, gears[entry][0] , gears[entry][1])
+        gearsum += gears[entry][0] * gears[entry][1]
 print(sum)
+print(gearsum)
 print("--- %s seconds ---" % (time.time() - start_time))
